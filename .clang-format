@@ -1,0 +1,82 @@
+BasedOnStyle: LLVM
+IndentWidth: 4
+
+
+# Indentation and line length
+IndentWidth: 2
+TabWidth: 2
+UseTab: Never
+
+ColumnLimit: 0
+
+# Alignment
+AlignOperands: DontAlign
+AlignAfterOpenBracket: DontAlign
+ContinuationIndentWidth: 2
+AlignTrailingComments:
+  Kind: Never
+
+# Braces
+BreakBeforeBraces: Custom
+BraceWrapping:
+  AfterFunction: true
+  AfterClass: false
+  AfterStruct: false
+  AfterNamespace: false
+  AfterControlStatement: false
+  BeforeCatch: true
+  BeforeElse: false
+  BeforeLambdaBody: false
+  IndentBraces: false
+
+# Spaces and parentheses
+SpaceBeforeParens: ControlStatements
+SpacesInParentheses: false
+SpaceAfterCStyleCast: true
+
+AllowShortIfStatementsOnASingleLine: Never
+AllowShortLoopsOnASingleLine: false
+AllowShortFunctionsOnASingleLine: None
+AllowShortBlocksOnASingleLine: false
+AllowShortLambdasOnASingleLine: None
+
+BreakBeforeBinaryOperators: NonAssignment
+BreakBeforeTernaryOperators: false
+
+PointerAlignment: Left
+DerivePointerAlignment: false
+
+IndentCaseLabels: true
+IndentPPDirectives: BeforeHash
+
+NamespaceIndentation: None
+
+ConstructorInitializerIndentWidth: 2
+BreakConstructorInitializers: BeforeComma
+
+SortIncludes: CaseSensitive
+IncludeBlocks: Regroup
+IncludeCategories:
+  # external includes
+  - Regex: '^<.*'
+    Priority: -1
+    CaseSensitive: true
+  # local relative includes
+  - Regex: '^".*'
+    Priority: 1
+    CaseSensitive: true
+
+ReflowComments: false
+FixNamespaceComments: true
+
+PenaltyBreakBeforeFirstCallParameter: 1000000000
+PenaltyBreakOpenParenthesis: 1000000000
+PenaltyExcessCharacter: 50
+
+AlwaysBreakTemplateDeclarations: true
+
+AllowAllArgumentsOnNextLine: false
+AllowAllParametersOfDeclarationOnNextLine: false
+AllowAllConstructorInitializersOnNextLine: false
+BinPackArguments: true
+BinPackParameters: false
