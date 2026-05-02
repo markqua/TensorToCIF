@@ -5,13 +5,13 @@ find_package(Qt6 REQUIRED COMPONENTS Widgets)
 find_package(Eigen3 5.0 REQUIRED NO_MODULE)
 
 set(SOURCES
-    TensorToCIF.cpp
-    LinearAlgebraUtils.cpp
+    src/TensorToCIF.cpp
+    src/LinearAlgebraUtils.cpp
 )
 
 set(HEADERS
-    TensorToCIF.h
-    LinearAlgebraUtils.h
+    include/TensorToCIF.h
+    include/LinearAlgebraUtils.h
 )
 
 add_executable(TTC ${SOURCES} ${HEADERS})
