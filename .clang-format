@@ -1,6 +1,4 @@
 BasedOnStyle: LLVM
-IndentWidth: 4
-
 
 # Indentation and line length
 IndentWidth: 2
