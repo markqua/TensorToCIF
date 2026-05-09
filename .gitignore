@@ -70,3 +70,4 @@ Testing/
 
 # Dev specific files
 .vscode
+.cursor
