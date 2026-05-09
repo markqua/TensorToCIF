@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.16)
-project(TTC LANGUAGES CXX)
+project(TensorToCIF LANGUAGES CXX)
 
 find_package(Qt6 REQUIRED COMPONENTS Widgets)
 
@@ -20,20 +20,35 @@ FetchContent_Declare(
 )
 FetchContent_MakeAvailable(gemmi)
 
-set(SOURCES
-    src/TensorToCIF.cpp
-    src/LinearAlgebraUtils.cpp
-)
+include(CTest)
+
+add_library(ttc_cif STATIC src/cif/CifParser.cpp)
+target_include_directories(ttc_cif PUBLIC ${CMAKE_SOURCE_DIR}/src)
+target_link_libraries(ttc_cif PUBLIC Eigen3::Eigen gemmi::gemmi_cpp)
+target_compile_features(ttc_cif PUBLIC cxx_std_17)
 
 set(HEADERS
-    include/TensorToCIF.h
-    include/LinearAlgebraUtils.h
+    src/core/CrystalData.h
+    src/cif/CifParser.h
 )
 
-add_executable(TTC ${SOURCES} ${HEADERS})
+add_executable(TensorToCIF src/main.cpp ${HEADERS})
+target_compile_features(TensorToCIF PRIVATE cxx_std_17)
+target_link_libraries(TensorToCIF PRIVATE ttc_cif Qt::Widgets)
 
-target_compile_features(TTC PRIVATE cxx_std_17)
+if(BUILD_TESTING)
+    FetchContent_Declare(
+        Catch2
+        GIT_REPOSITORY https://github.com/catchorg/Catch2.git
+        GIT_TAG v3.5.4
+    )
+    FetchContent_MakeAvailable(Catch2)
 
-target_include_directories(TTC PRIVATE src)
+    add_executable(ttc_tests tests/test_cif_parser.cpp ${HEADERS})
+    target_compile_features(ttc_tests PRIVATE cxx_std_17)
+    target_link_libraries(ttc_tests PRIVATE ttc_cif Catch2::Catch2WithMain)
+    target_compile_definitions(ttc_tests PRIVATE
+        TTC_SAMPLES_DIR="${CMAKE_SOURCE_DIR}/data/samples")
 
-target_link_libraries(TTC PRIVATE Qt::Widgets Eigen3::Eigen gemmi::gemmi_cpp)
+    add_test(NAME cif_parser COMMAND ttc_tests)
+endif()
