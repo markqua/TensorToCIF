@@ -1,0 +1,186 @@
+####################################################################### 
+# 
+# This file contains crystal structure data downloaded from the 
+# Cambridge Structural Database (CSD) hosted by the Cambridge 
+# Crystallographic Data Centre (CCDC).
+# 
+# Full information about CCDC data access policies and citation 
+# guidelines are available at http://www.ccdc.cam.ac.uk/access/V1 
+# 
+# Audit and citation data items may have been added by the CCDC. 
+# Please retain this information to preserve the provenance of 
+# this file and to allow appropriate attribution of the data. 
+# 
+#######################################################################
+
+data_XU1113_6_CORR_phase_1
+_audit_block_doi                 10.5517/ccdc.csd.cc1lydc9
+_database_code_depnum_ccdc_archive 'CCDC 1488011'
+loop_
+_citation_id
+_citation_doi
+_citation_year
+1 10.1017/S088571561200005X 2012
+_audit_update_record             
+;
+2016-06-28 deposited with the CCDC.	2026-05-09 downloaded from the CCDC.
+;
+
+_pd_block_id                     
+2011-10-13T18:14|XU1113_6_CORR_phase1|Fortes||
+
+# Histograms for phase 1
+loop_
+_pd_block_diffractogram_id
+2011-10-13T18:14|XU1113_6_CORR_H_01|Fortes|PANAlytical_XPert_Pro_MPD
+
+#==============================================================================
+# 7. CHEMICAL, STRUCTURAL AND CRYSTAL DATA
+
+_pd_char_particle_morphology     ?
+
+_chemical_name_systematic        
+; ?
+;
+_chemical_name_common            ?
+_chemical_formula_moiety         ?
+_chemical_formula_structural     ?
+_chemical_formula_analytical     ?
+_chemical_melting_point          ?
+_chemical_compound_source        ? # for minerals and
+# natural products
+_symmetry_space_group_name_Hall  ?
+
+_exptl_crystal_F_000             ?
+_exptl_crystal_density_diffrn    ?
+_exptl_crystal_density_meas      ?
+_exptl_crystal_density_method    ?
+
+_cell_measurement_temperature    ?
+
+_cell_special_details            
+; ?
+;
+
+_geom_special_details            ?
+
+# The following item identifies the program(s) used (if appropriate).
+_computing_structure_solution    ?
+
+#==============================================================================
+
+# 8. Phase information from GSAS
+
+_pd_phase_name                   Ice
+_cell_length_a                   4.519457(28)
+_cell_length_b                   4.519457
+_cell_length_c                   7.36004(6)
+_cell_angle_alpha                90.0
+_cell_angle_beta                 90.0
+_cell_angle_gamma                120.0
+_cell_volume                     130.1920(20)
+_symmetry_cell_setting           hexagonal
+_symmetry_space_group_name_H-M   P63/mmc
+loop_
+_symmetry_equiv_pos_site_id
+_symmetry_equiv_pos_as_xyz
+1 +x,+y,+z
+2 x-y,+x,+z+1/2
+3 -y,x-y,+z
+4 -x,-y,+z+1/2
+5 y-x,-x,+z
+6 +y,y-x,+z+1/2
+7 y-x,+y,+z
+8 -x,y-x,+z+1/2
+9 -y,-x,+z
+10 x-y,-y,+z+1/2
+11 +x,x-y,+z
+12 +y,+x,+z+1/2
+-1 -x,-y,-z
+-2 y-x,-x,-z+1/2
+-3 +y,y-x,-z
+-4 +x,+y,-z+1/2
+-5 x-y,+x,-z
+-6 -y,x-y,-z+1/2
+-7 x-y,-y,-z
+-8 +x,x-y,-z+1/2
+-9 +y,+x,-z
+-10 y-x,+y,-z+1/2
+-11 -x,y-x,-z
+-12 -y,-x,-z+1/2
+
+# ATOMIC COORDINATES AND DISPLACEMENT PARAMETERS
+
+
+loop_
+_atom_site_type_symbol
+_atom_site_label
+_atom_site_fract_x
+_atom_site_fract_y
+_atom_site_fract_z
+_atom_site_occupancy
+_atom_site_thermal_displace_type
+_atom_site_U_iso_or_equiv
+_atom_site_symmetry_multiplicity
+H H2 0.451 0.9019 0.0179 0.5 Uiso 0.025 12
+H H1 0.3333 0.6667 0.1964 0.5 Uiso 0.025 4
+O O1 0.3333 0.6667 0.0614 1.0 Uiso 0.025 4
+
+loop_
+_atom_type_symbol
+_atom_type_number_in_cell
+H 8.0
+O 4.0
+
+# If you change Z, be sure to change all 3 of the following
+_chemical_formula_sum            'H2.00 O'
+_chemical_formula_weight         18.01
+_cell_formula_units_Z            4
+
+# MOLECULAR GEOMETRY
+
+loop_
+_geom_bond_atom_site_label_1
+_geom_bond_atom_site_label_2
+_geom_bond_distance
+_geom_bond_site_symmetry_1
+_geom_bond_site_symmetry_2
+_geom_bond_publ_flag
+H2 H2 1.594690(10) . 3_665 N
+H2 H2 1.594690(10) . 5_565 N
+H2 H2 0.81187 . -1_675 N
+H2 H1 1.604190(10) . 1_555 N
+H2 O1 0.974650(10) . 1_555 N
+H2 O1 1.786510(10) . -1_675 N
+H1 H2 1.604190(10) . 1_555 N
+H1 H2 1.604190(10) . 3_665 N
+H1 H2 1.604410(10) . 5_565 N
+H1 H1 0.789000(10) . -2_565 N
+H1 O1 0.993610(10) . 1_555 N
+H1 O1 1.782600(20) . -2_565 N
+O1 H2 0.974650(10) . 1_555 N
+O1 H2 0.974650(10) . 3_665 N
+O1 H2 0.975020(10) . 5_565 N
+O1 H2 1.786510(10) . -1_675 N
+O1 H2 1.786510(10) . -3_455 N
+O1 H2 1.786880(10) . -5_655 N
+O1 H1 0.993610(10) . 1_555 N
+O1 H1 1.782600(20) . -2_565 N
+
+loop_
+_geom_angle_atom_site_label_1
+_geom_angle_atom_site_label_2
+_geom_angle_atom_site_label_3
+_geom_angle
+_geom_angle_site_symmetry_1
+_geom_angle_site_symmetry_2
+_geom_angle_site_symmetry_3
+_geom_angle_publ_flag
+H2 H2 O1 180.0 -1_675 . 1_555 N
+H1 H1 O1 180.0 -2_565 . 1_555 N
+H2 O1 H2 109.78680(20) 1_555 . 3_665 N
+H2 O1 H2 109.75590(20) 1_555 . 5_565 N
+H2 O1 H1 109.17710(20) 1_555 . 1_555 N
+H2 O1 H2 109.75590(20) 3_665 . 5_565 N
+H2 O1 H1 109.17710(20) 3_665 . 1_555 N
+H2 O1 H1 109.16950(20) 5_565 . 1_555 N
