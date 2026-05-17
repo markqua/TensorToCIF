@@ -14,10 +14,10 @@ struct ParseError : std::runtime_error {
 };
 
 //  Parses the first `data_` block in the file into a crystal description.
-CrystalData parseCifFile(const std::filesystem::path& path);
+CrystalData parseCifFile(const std::filesystem::path& iPath);
 
 //  Parses a specific block by name (without the `data_` prefix).
-CrystalData parseCifFile(const std::filesystem::path& path,
-  const std::string& blockName);
+CrystalData parseCifFile(const std::filesystem::path& iPath,
+  const std::string& iBlockName);
 
 } // namespace parser

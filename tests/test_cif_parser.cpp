@@ -17,14 +17,13 @@ static fs::path samplePath(const std::string& filename)
 static void requireReasonableCrystal(const CrystalData& c)
 {
   REQUIRE_FALSE(c.atoms.empty());
-  const UnitCell& uc = c.cell;
-  REQUIRE(uc.a > 1e-3);
-  REQUIRE(uc.b > 1e-3);
-  REQUIRE(uc.c > 1e-3);
-  REQUIRE(uc.volume > 1e-6);
-  REQUIRE_FALSE((uc.fracToCart.array().isNaN().any()));
-  REQUIRE_FALSE((uc.fracToCart.array().isInf().any()));
-  REQUIRE(std::abs(uc.fracToCart.determinant()) > 1e-18);
+  REQUIRE(c.a > 1e-3);
+  REQUIRE(c.b > 1e-3);
+  REQUIRE(c.c > 1e-3);
+  REQUIRE(c.volume > 1e-6);
+  REQUIRE_FALSE((c.fracToCartJac.array().isNaN().any()));
+  REQUIRE_FALSE((c.fracToCartJac.array().isInf().any()));
+  REQUIRE(std::abs(c.fracToCartJac.determinant()) > 1e-18);
 
   for (const Atom& a : c.atoms) {
     REQUIRE_FALSE(a.label.empty());

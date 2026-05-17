@@ -17,22 +17,20 @@ int main(int argc, char* argv[])
     std::cout << "block: data_" << crystal.name << "\n";
     if (!crystal.spaceGroupHm.empty())
       std::cout << "space group H-M: " << crystal.spaceGroupHm << '\n';
-
-    const auto& uc = crystal.cell;
-    std::cout << "\ncell: a,b,c [A]: " << uc.a << ' ' << uc.b << ' ' << uc.c << '\n';
-    std::cout << "angles [deg]: " << uc.alpha << ' ' << uc.beta << ' '
-              << uc.gamma << '\n';
-    std::cout << "volume [A^3]: " << uc.volume << '\n';
+    std::cout << "\ncell: a,b,c [A]: " << crystal.a << ' ' << crystal.b << ' ' << crystal.c << '\n';
+    std::cout << "angles [deg]: " << crystal.alpha << ' ' << crystal.beta << ' '
+              << crystal.gamma << '\n';
+    std::cout << "volume [A^3]: " << crystal.volume << '\n';
 
     std::cout << "\nfracToCart:\n"
-              << uc.fracToCart << '\n';
+              << crystal.fracToCartJac << '\n';
 
     const int n_show = std::min(10, static_cast<int>(crystal.atoms.size()));
     std::cout << "\nfirst " << n_show << " atoms (ASU):\n";
     for (int i = 0; i < n_show; ++i) {
       const auto& a = crystal.atoms[static_cast<std::size_t>(i)];
       std::cout << a.label << ' ' << a.element << " frac "
-                << a.frac_coords.transpose() << '\n';
+                << a.fractionalCoords.transpose() << '\n';
     }
     std::cout << "total sites: " << crystal.atoms.size() << '\n';
   }

@@ -7,93 +7,106 @@
 namespace parser {
 namespace {
 
-Eigen::Matrix3d mat33ToEigen(const gemmi::Mat33& mat)
+Eigen::Matrix3d adaptMat33ToEigen(const gemmi::Mat33& iMat)
 {
-  Eigen::Matrix3d e;
+  Eigen::Matrix3d eigenMatrix;
+
   for (int i = 0; i < 3; ++i) {
     for (int j = 0; j < 3; ++j) {
-      e(i, j) = mat[i][j];
+      eigenMatrix(i, j) = iMat[i][j];
     }
   }
-  return e;
+
+  return eigenMatrix;
 }
 
-CrystalData fromSmallStructure(const gemmi::SmallStructure& st)
+CrystalData adaptSmallStructureToCrystalData(const gemmi::SmallStructure& iStruct)
 {
-  CrystalData out;
-  out.name = st.name;
+  CrystalData outCrystalData;
+  outCrystalData.name = iStruct.name;
 
-  const gemmi::UnitCell& cell = st.cell;
+  const gemmi::UnitCell& cell = iStruct.cell;
+
   if (!cell.is_crystal()) {
     throw ParseError(
-      out.name.empty() ? "CIF block has no valid crystal unit cell." : "data_" + out.name + ": no valid crystal unit cell.");
+      outCrystalData.name.empty() ? "CIF block has no valid crystal unit cell." : "data_" + outCrystalData.name + ": no valid crystal unit cell.");
   }
-  if (st.sites.empty()) {
+
+  if (iStruct.sites.empty()) {
     throw ParseError(
-      out.name.empty() ? "CIF block contains no atom sites." : "data_" + out.name + ": no atom sites.");
+      outCrystalData.name.empty() ? "CIF block contains no atom sites." : "data_" + outCrystalData.name + ": no atom sites.");
   }
 
-  out.spaceGroupHm = st.spacegroup_hm;
+  outCrystalData.spaceGroupHm = iStruct.spacegroup_hm;
 
-  out.cell.a = cell.a;
-  out.cell.b = cell.b;
-  out.cell.c = cell.c;
-  out.cell.alpha = cell.alpha;
-  out.cell.beta = cell.beta;
-  out.cell.gamma = cell.gamma;
-  out.cell.volume = cell.volume;
-  out.cell.fracToCart = mat33ToEigen(cell.orth.mat);
+  outCrystalData.a = cell.a;
+  outCrystalData.b = cell.b;
+  outCrystalData.c = cell.c;
 
-  out.atoms.reserve(st.sites.size());
-  for (const gemmi::SmallStructure::Site& s : st.sites) {
+  outCrystalData.alpha = cell.alpha;
+  outCrystalData.beta = cell.beta;
+  outCrystalData.gamma = cell.gamma;
+
+  outCrystalData.volume = cell.volume;
+
+  outCrystalData.fracToCartJac = adaptMat33ToEigen(cell.orth.mat);
+
+  outCrystalData.atoms.reserve(iStruct.sites.size());
+  for (const gemmi::SmallStructure::Site& s : iStruct.sites) {
     Atom a;
+
     a.label = s.label;
     a.element = s.element.name();
-    a.frac_coords = Eigen::Vector3d(s.fract.x, s.fract.y, s.fract.z);
-    out.atoms.push_back(std::move(a));
+    a.fractionalCoords = Eigen::Vector3d(s.fract.x, s.fract.y, s.fract.z);
+
+    outCrystalData.atoms.push_back(std::move(a));
   }
 
-  return out;
+  return outCrystalData;
 }
 
-gemmi::cif::Block& selectBlock(gemmi::cif::Document& doc,
-  const std::filesystem::path& path,
-  const std::string& blockName)
+gemmi::cif::Block& selectBlock(gemmi::cif::Document& iDoc,
+  const std::filesystem::path& iPath,
+  const std::string& iBlockName)
 {
-  gemmi::cif::Block* b = doc.find_block(blockName);
+  gemmi::cif::Block* b = iDoc.find_block(iBlockName);
+
   if (!b) {
     std::ostringstream msg;
-    msg << path.string() << ": data block \"" << blockName << "\" not found.";
+    msg << iPath.string() << ": data block \"" << iBlockName << "\" not found.";
+
     throw ParseError(msg.str());
   }
+
   return *b;
 }
 
-gemmi::cif::Block& firstBlock(gemmi::cif::Document& doc,
-  const std::filesystem::path& path)
+gemmi::cif::Block& firstBlock(gemmi::cif::Document& iDoc,
+  const std::filesystem::path& iPath)
 {
-  if (doc.blocks.empty()) {
+  if (iDoc.blocks.empty()) {
     std::ostringstream msg;
-    msg << path.string() << ": CIF contains no data blocks.";
+    msg << iPath.string() << ": CIF contains no data blocks.";
     throw ParseError(msg.str());
   }
-  return doc.blocks.front();
+
+  return iDoc.blocks.front();
 }
 
-CrystalData parseImpl(const std::filesystem::path& path,
-  gemmi::cif::Block& block)
+CrystalData parseImpl(const std::filesystem::path& iPath,
+  gemmi::cif::Block& iBlock)
 {
   try {
-    gemmi::SmallStructure st = gemmi::make_small_structure_from_block(block);
-    return fromSmallStructure(st);
+    gemmi::SmallStructure iStruct = gemmi::make_small_structure_from_block(iBlock);
+    return adaptSmallStructureToCrystalData(iStruct);
   }
   catch (const ParseError&) {
     throw;
   }
   catch (const std::exception& ex) {
     std::ostringstream msg;
-    msg << path.string();
-    const std::string name = block.name;
+    msg << iPath.string();
+    const std::string name = iBlock.name;
     if (!name.empty())
       msg << " (data_" << name << ")";
     msg << ": " << ex.what();
@@ -103,37 +116,39 @@ CrystalData parseImpl(const std::filesystem::path& path,
 
 } // namespace
 
-CrystalData parseCifFile(const std::filesystem::path& path)
+CrystalData parseCifFile(const std::filesystem::path& iPath)
 {
   try {
-    gemmi::cif::Document doc = gemmi::cif::read_file(path.string());
-    gemmi::cif::Block& block = firstBlock(doc, path);
-    return parseImpl(path, block);
+    gemmi::cif::Document doc = gemmi::cif::read_file(iPath.string());
+    gemmi::cif::Block& block = firstBlock(doc, iPath);
+    return parseImpl(iPath, block);
   }
   catch (const ParseError&) {
     throw;
   }
   catch (const std::exception& ex) {
     std::ostringstream msg;
-    msg << path.string() << ": " << ex.what();
+    msg << iPath.string() << ": " << ex.what();
     throw ParseError(msg.str());
   }
 }
 
-CrystalData parseCifFile(const std::filesystem::path& path,
-  const std::string& blockName)
+CrystalData parseCifFile(const std::filesystem::path& iPath,
+  const std::string& iBlockName)
 {
   try {
-    gemmi::cif::Document doc = gemmi::cif::read_file(path.string());
-    gemmi::cif::Block& block = selectBlock(doc, path, blockName);
-    return parseImpl(path, block);
+    gemmi::cif::Document doc = gemmi::cif::read_file(iPath.string());
+    gemmi::cif::Block& block = selectBlock(doc, iPath, iBlockName);
+
+    return parseImpl(iPath, block);
   }
   catch (const ParseError&) {
     throw;
   }
   catch (const std::exception& ex) {
     std::ostringstream msg;
-    msg << path.string() << ": " << ex.what();
+    msg << iPath.string() << ": " << ex.what();
+
     throw ParseError(msg.str());
   }
 }
