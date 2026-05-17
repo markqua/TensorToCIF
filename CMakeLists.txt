@@ -8,15 +8,15 @@ include(FetchContent)
 FetchContent_Declare(
     eigen
     GIT_REPOSITORY https://gitlab.com/libeigen/eigen.git
-    GIT_TAG        5.0.0
-    GIT_SHALLOW    TRUE
+    GIT_TAG 5.0.0
+    GIT_SHALLOW TRUE
 )
 FetchContent_MakeAvailable(eigen)
 
 FetchContent_Declare(
     gemmi
     GIT_REPOSITORY https://github.com/project-gemmi/gemmi.git
-    GIT_TAG        v0.6.7
+    GIT_TAG v0.6.7
 )
 FetchContent_MakeAvailable(gemmi)
 
@@ -30,6 +30,7 @@ target_compile_features(ttc_cif PUBLIC cxx_std_17)
 set(HEADERS
     src/core/CrystalData.h
     src/cif/CifParser.h
+    src/math/LinearAlgebraUtils.h
 )
 
 add_executable(TensorToCIF src/main.cpp ${HEADERS})
